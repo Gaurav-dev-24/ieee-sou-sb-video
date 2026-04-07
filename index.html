@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IEEE Silver Oak University Student Branch</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- GSAP CDN (with MotionPathPlugin) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="src/styles/main.css" />
+  <script>
+    window.__APP_DIAGNOSTICS__ = {
+      missingLibs: [],
+      show(message) {
+        const panel = document.getElementById("app-diagnostics");
+        if (!panel) return;
+        panel.textContent = message;
+        panel.hidden = false;
+      },
+    };
+
+    window.addEventListener("error", (event) => {
+      const detail = event.error?.message || event.message || "Unknown startup error";
+      window.__APP_DIAGNOSTICS__.show(`Startup error: ${detail}`);
+    });
+  </script>
+</head>
+<body>
+
+  <div id="app-diagnostics" hidden></div>
+  <noscript>
+    <div id="app-diagnostics">
+      JavaScript is disabled. Enable JavaScript to run the experience.
+    </div>
+  </noscript>
+
+  <!-- ── PHASE 0: START SCREEN ── -->
+  <div id="start-screen">
+    <div id="start-content">
+      <button id="start-btn" aria-label="Start Experience">
+        <span class="btn-text">INITIATE</span>
+        <div class="btn-ring"></div>
+        <div class="btn-ring btn-ring--2"></div>
+      </button>
+    </div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- ── PHASE 1: COUNTDOWN ── -->
+  <div id="countdown-screen">
+    <div id="countdown-number">5</div>
+    <svg id="countdown-ring" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="90" class="ring-track" />
+      <circle cx="100" cy="100" r="90" class="ring-progress" id="ring-progress" />
+    </svg>
+  </div>
+
+  <!-- ── PHASE 2 & 3: THREE.JS CANVAS ── -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- ── PHASE 4: UI ASSEMBLY ── -->
+  <div id="ui-assembly">
+
+    <!-- Background -->
+    <div id="ui-bg"></div>
+    <div id="ui-overlay"></div>
+
+    <!-- Navbar -->
+    <nav id="ui-nav">
+      <div class="nav-logo" id="nav-logo">
+        <img src="assets/image.png" alt="Silver Oak University IEEE Student Branch" class="nav-logo-image" />
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Achievement</a></li>
+        <li><a href="#">Blogs</a></li>
+        <li><a href="#">Bylaws</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+      <button class="nav-cta" id="nav-cta">Join IEEE</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="ui-hero" aria-hidden="true"></section>
+
+  </div><!-- /ui-assembly -->
+
+  <!-- Main JS (module) -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

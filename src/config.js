@@ -1,0 +1,45 @@
+export const CONFIG = {
+  COUNTDOWN_FROM: 5,
+  TARGET_MODE: "text",
+  TARGET_IMAGE_SRC: "assets/particle-text.svg.png",
+  TARGET_OFFSET_Y: 0,
+
+  CAMERA_FOV: 45,
+  CAMERA_NEAR: 0.1,
+  CAMERA_FAR: 100,
+  CAMERA_Z: 22,
+
+  PARTICLE_COUNT: 6200,
+  PARTICLE_SIZE: 15,
+  PARTICLE_COLOR: "#2d6cdf",
+  PARTICLE_COLOR_ALT: "#94b9ff",
+
+  SPREAD: {
+    x: 34,
+    y: 14,
+    z: 10,
+  },
+
+  FLOAT_AMPLITUDE: 0.0007,
+  FLOAT_SPEED: 0.78,
+
+  MORPH_DURATION: 2.3,
+  MORPH_EASE: "expo.out",
+
+  SCALE_FROM: 1,
+  SCALE_TO: 1.18,
+  SCALE_DURATION: 1.5,
+
+  DISPERSE_DURATION: 1.45,
+  DISPERSE_EASE: "power3.out",
+  DISPERSE_SPREAD: 42,
+
+  TEXT_STRING: "IEEE Silver Oak University Student Branch",
+  TEXT_CANVAS_WIDTH: 2400,
+  TEXT_CANVAS_HEIGHT: 900,
+  TEXT_FONT_FAMILY: "Inter, sans-serif",
+  TEXT_FONT_WEIGHT: 800,
+  TEXT_FONT_SIZE: 148,
+  TEXT_MAX_LINES: 2,
+  TEXT_SAMPLE_STEP: 3,
+};

@@ -1,0 +1,18 @@
+<svg width="1580" height="210" viewBox="0 0 1580 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1580" height="210" fill="white"/>
+  <circle cx="90" cy="92" r="54" fill="#0C7A52"/>
+  <circle cx="90" cy="92" r="41" fill="white" opacity="0.9"/>
+  <path d="M90 60C78 60 69 70 69 83C69 103 90 124 90 124C90 124 111 103 111 83C111 70 102 60 90 60Z" fill="#0C7A52"/>
+  <rect x="34" y="150" width="112" height="16" rx="3" fill="#B6312C"/>
+  <text x="190" y="82" fill="#8A1E1E" font-size="38" font-weight="800" font-family="Montserrat, Arial, sans-serif">SILVER OAK</text>
+  <text x="190" y="125" fill="#8A1E1E" font-size="38" font-weight="800" font-family="Montserrat, Arial, sans-serif">UNIVERSITY</text>
+  <text x="190" y="156" fill="#8A1E1E" font-size="20" font-weight="700" font-family="Inter, Arial, sans-serif">EDUCATION TO INNOVATION</text>
+  <rect x="533" y="34" width="3" height="136" fill="#3F3F46"/>
+  <circle cx="630" cy="96" r="48" fill="#F0D68A" stroke="#B6312C" stroke-width="6"/>
+  <circle cx="630" cy="96" r="31" fill="white"/>
+  <text x="605" y="105" fill="#111827" font-size="34" font-weight="800" font-family="Montserrat, Arial, sans-serif">A</text>
+  <text x="716" y="114" fill="#005DAA" font-size="104" font-weight="800" font-family="Montserrat, Arial, sans-serif">IEEE</text>
+  <rect x="1110" y="34" width="3" height="136" fill="#3F3F46"/>
+  <text x="1160" y="88" fill="#005DAA" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">Silver Oak University</text>
+  <text x="1160" y="136" fill="#005DAA" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">IEEE Student Branch</text>
+</svg>
