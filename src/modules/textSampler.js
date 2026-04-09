@@ -37,45 +37,43 @@ export class TextSampler {
     measureCanvas.height = CONFIG.TEXT_CANVAS_HEIGHT;
     const measureCtx = measureCanvas.getContext('2d');
 
-    const paddingX  = 80;
-    const paddingY  = 60;
-    const maxWidth  = measureCanvas.width - paddingX * 2;
-    let fontSize    = CONFIG.TEXT_FONT_SIZE;
-    let lines       = [CONFIG.TEXT_STRING];
+    const paddingX = 80;
+    const paddingY = 60;
+    const maxWidth = measureCanvas.width - paddingX * 2;
+    let fontSize = CONFIG.TEXT_FONT_SIZE;
 
-    // Shrink font until all lines fit within maxWidth and max line count
+    // Hard-coded two-line split for full branch name
+    let lines = ['SILVER OAK UNIVERSITY IEEE', 'STUDENT BRANCH'];
+
+    // Shrink font until both lines fit within maxWidth
     while (fontSize >= 36) {
       measureCtx.font = `${CONFIG.TEXT_FONT_WEIGHT} ${fontSize}px ${CONFIG.TEXT_FONT_FAMILY}`;
-      lines = CONFIG.TEXT_MAX_LINES === 1
-        ? [CONFIG.TEXT_STRING]
-        : this.wrapLines(measureCtx, CONFIG.TEXT_STRING.split(' '), maxWidth);
-
       const widestLine = Math.max(...lines.map(l => measureCtx.measureText(l).width));
-      if (lines.length <= CONFIG.TEXT_MAX_LINES && widestLine <= maxWidth) break;
+      if (widestLine <= maxWidth) break;
       fontSize -= 4;
     }
 
     // Final measurements
     measureCtx.font = `${CONFIG.TEXT_FONT_WEIGHT} ${fontSize}px ${CONFIG.TEXT_FONT_FAMILY}`;
-    const metrics   = measureCtx.measureText(lines[0]);
-    const ascent    = metrics.actualBoundingBoxAscent  || fontSize * 0.78;
-    const descent   = metrics.actualBoundingBoxDescent || fontSize * 0.22;
-    const lineH     = ascent + descent;
-    const lineGap   = fontSize * 0.28;           // comfortable inter-line gap
+    const metrics = measureCtx.measureText(lines[0]);
+    const ascent = metrics.actualBoundingBoxAscent || fontSize * 0.78;
+    const descent = metrics.actualBoundingBoxDescent || fontSize * 0.22;
+    const lineH = ascent + descent;
+    const lineGap = fontSize * 0.38;           // comfortable inter-line gap
     const totalTextH = lineH * lines.length + lineGap * (lines.length - 1);
     const widestLine = Math.max(...lines.map(l => measureCtx.measureText(l).width));
 
-    const drawPadX   = 32;
-    const drawPadY   = 32;
-    const cvs        = document.createElement('canvas');
-    cvs.width        = Math.ceil(widestLine)  + drawPadX * 2;
-    cvs.height       = Math.ceil(totalTextH)  + drawPadY * 2;
-    const ctx        = cvs.getContext('2d');
+    const drawPadX = 32;
+    const drawPadY = 32;
+    const cvs = document.createElement('canvas');
+    cvs.width = Math.ceil(widestLine) + drawPadX * 2;
+    cvs.height = Math.ceil(totalTextH) + drawPadY * 2;
+    const ctx = cvs.getContext('2d');
 
     ctx.clearRect(0, 0, cvs.width, cvs.height);
-    ctx.fillStyle   = '#ffffff';
-    ctx.font        = `${CONFIG.TEXT_FONT_WEIGHT} ${fontSize}px ${CONFIG.TEXT_FONT_FAMILY}`;
-    ctx.textAlign   = 'center';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `${CONFIG.TEXT_FONT_WEIGHT} ${fontSize}px ${CONFIG.TEXT_FONT_FAMILY}`;
+    ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
 
     const cx = cvs.width / 2;
@@ -86,14 +84,14 @@ export class TextSampler {
     });
 
     const imgData = ctx.getImageData(0, 0, cvs.width, cvs.height);
-    const data    = imgData.data;
-    const step    = CONFIG.TEXT_SAMPLE_STEP;
-    const points  = [];
+    const data = imgData.data;
+    const step = CONFIG.TEXT_SAMPLE_STEP;
+    const points = [];
 
     for (let y = 0; y < cvs.height; y += step) {
       for (let x = 0; x < cvs.width; x += step) {
-        const idx   = (y * cvs.width + x) * 4;
-        const red   = data[idx];
+        const idx = (y * cvs.width + x) * 4;
+        const red = data[idx];
         const alpha = data[idx + 3];
         if (alpha > 0 && red > 180) {
           points.push({ x, y });
@@ -105,8 +103,8 @@ export class TextSampler {
       return { positions: new Float32Array(), count: 0 };
     }
 
-    let minX = Infinity,  maxX = -Infinity;
-    let minY = Infinity,  maxY = -Infinity;
+    let minX = Infinity, maxX = -Infinity;
+    let minY = Infinity, maxY = -Infinity;
     for (const p of points) {
       if (p.x < minX) minX = p.x;
       if (p.x > maxX) maxX = p.x;
@@ -114,13 +112,13 @@ export class TextSampler {
       if (p.y > maxY) maxY = p.y;
     }
 
-    const boundsW  = Math.max(maxX - minX, 1);
-    const boundsH  = Math.max(maxY - minY, 1);
+    const boundsW = Math.max(maxX - minX, 1);
+    const boundsH = Math.max(maxY - minY, 1);
 
-    // Allow more world-height for multi-line text (45% instead of 22%)
-    const targetMaxW  = worldWidth  * 0.80;
-    const targetMaxH  = worldHeight * 0.45;
-    const scale       = Math.min(targetMaxW / boundsW, targetMaxH / boundsH);
+    // Allow more world space for full two-line text
+    const targetMaxW = worldWidth * 0.88;
+    const targetMaxH = worldHeight * 0.52;
+    const scale = Math.min(targetMaxW / boundsW, targetMaxH / boundsH);
 
     const centerX = minX + boundsW / 2;
     const centerY = minY + boundsH / 2;
@@ -232,9 +230,9 @@ export class TextSampler {
    * Used to map canvas pixel space ↔ 3D world space.
    */
   static worldDimensions(camera) {
-    const vFov  = (camera.fov * Math.PI) / 180;
+    const vFov = (camera.fov * Math.PI) / 180;
     const height = 2 * Math.tan(vFov / 2) * camera.position.z;
-    const width  = height * camera.aspect;
+    const width = height * camera.aspect;
     return { width, height };
   }
 }

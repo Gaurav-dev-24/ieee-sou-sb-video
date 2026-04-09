@@ -1,0 +1,100 @@
+<!--
+  DESTINATION PAGE AUTO-SCROLL SCRIPT
+  ====================================
+  Paste this entire block into the <head> of your destination website (e.g. ieeesou.in).
+  It loads GSAP + ScrollToPlugin from CDN, checks for the animation handoff flag,
+  and runs a smooth scroll tour of the page before showing a scroll hint.
+-->
+
+<!-- GSAP + ScrollToPlugin (skip if already loaded on your site) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+<style>
+  #scroll-hint {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    color: #2d6cdf;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  #scroll-hint.is-visible {
+    animation: scrollHintBounce 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scrollHintBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-6px); }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check for animation handoff flag
+    var fromAnimation = sessionStorage.getItem("from_animation");
+    if (fromAnimation !== "1") return;
+
+    // Clear the flag so refresh doesn't re-trigger
+    sessionStorage.removeItem("from_animation");
+
+    // Register plugin
+    gsap.registerPlugin(ScrollToPlugin);
+
+    // Inject scroll hint element
+    var hint = document.createElement("div");
+    hint.id = "scroll-hint";
+    hint.textContent = "Scroll to explore \u2193";
+    document.body.appendChild(hint);
+
+    // Find the footer (try common selectors)
+    var footer =
+      document.querySelector("footer") ||
+      document.getElementById("footer") ||
+      document.getElementById("ui-footer");
+
+    // Fallback: scroll to bottom of page
+    var scrollTarget = footer || document.body.scrollHeight;
+
+    // Wait 5 seconds, then begin the scroll tour
+    setTimeout(function () {
+      // Scroll down to footer
+      gsap.to(window, {
+        scrollTo: { y: scrollTarget, autoKill: false },
+        duration: 3.5,
+        ease: "power2.inOut",
+        onComplete: function () {
+          // Pause at footer for 1.5 seconds
+          setTimeout(function () {
+            // Scroll back to top
+            gsap.to(window, {
+              scrollTo: { y: 0, autoKill: false },
+              duration: 2.5,
+              ease: "power2.inOut",
+              onComplete: function () {
+                // Fade in scroll hint
+                gsap.to(hint, {
+                  opacity: 1,
+                  duration: 0.6,
+                  ease: "power2.out",
+                  onComplete: function () {
+                    hint.classList.add("is-visible");
+                  },
+                });
+              },
+            });
+          }, 1500);
+        },
+      });
+    }, 5000);
+  });
+</script>

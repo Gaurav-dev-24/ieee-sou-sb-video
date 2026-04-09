@@ -74,6 +74,15 @@ export class MorphEngine {
     });
   }
 
+  // ── Hold particles frozen for a duration ──────────────
+  /**
+   * @param {number} ms — milliseconds to hold
+   * @returns {Promise} resolves after hold completes
+   */
+  holdText(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   // ── Scale the particle mesh (3D zoom) ─────────────────
   scaleText() {
     return new Promise(resolve => {

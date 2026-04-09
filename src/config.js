@@ -1,4 +1,6 @@
 export const CONFIG = {
+  REDIRECT_URL: "https://sou-smp-7-4.pages.dev/",
+
   COUNTDOWN_FROM: 5,
   TARGET_MODE: "text",
   TARGET_IMAGE_SRC: "assets/particle-text.svg.png",
@@ -9,13 +11,13 @@ export const CONFIG = {
   CAMERA_FAR: 100,
   CAMERA_Z: 22,
 
-  PARTICLE_COUNT: 6200,
+  PARTICLE_COUNT: 8000,
   PARTICLE_SIZE: 15,
   PARTICLE_COLOR: "#2d6cdf",
   PARTICLE_COLOR_ALT: "#94b9ff",
 
   SPREAD: {
-    x: 34,
+    x: 40,
     y: 14,
     z: 10,
   },
@@ -35,11 +37,11 @@ export const CONFIG = {
   DISPERSE_SPREAD: 42,
 
   TEXT_STRING: "IEEE Silver Oak University Student Branch",
-  TEXT_CANVAS_WIDTH: 2400,
-  TEXT_CANVAS_HEIGHT: 900,
+  TEXT_CANVAS_WIDTH: 3600,
+  TEXT_CANVAS_HEIGHT: 600,
   TEXT_FONT_FAMILY: "Inter, sans-serif",
   TEXT_FONT_WEIGHT: 800,
-  TEXT_FONT_SIZE: 148,
+  TEXT_FONT_SIZE: 220,
   TEXT_MAX_LINES: 2,
-  TEXT_SAMPLE_STEP: 3,
+  TEXT_SAMPLE_STEP: 4,
 };

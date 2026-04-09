@@ -9,12 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- GSAP CDN (with MotionPathPlugin) -->
+  <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
-
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <!-- Styles -->
   <link rel="stylesheet" href="src/styles/main.css" />
@@ -46,15 +42,90 @@
 
   <!-- ── PHASE 0: START SCREEN ── -->
   <div id="start-screen">
+
+    <!-- Background particles canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Glowing orbs -->
+    <div class="orb orb--1"></div>
+    <div class="orb orb--2"></div>
+    <div class="orb orb--3"></div>
+
+    <!-- Floating rings -->
+    <div class="float-ring float-ring--1"></div>
+    <div class="float-ring float-ring--2"></div>
+    <div class="float-ring float-ring--3"></div>
+
+    <div class="grid-overlay"></div>
+
     <div id="start-content">
+      <!-- Button -->
       <button id="start-btn" aria-label="Start Experience">
-        <span class="btn-text">INITIATE</span>
+        <span class="btn-text">LAUNCH</span>
         <div class="btn-ring"></div>
         <div class="btn-ring btn-ring--2"></div>
       </button>
     </div>
-    <div class="grid-overlay"></div>
+
+    <!-- Rocket -->
+    <div class="rocket" id="launch-rocket">
+      <svg viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <path d="M30 5 C18 20 14 45 14 62 L46 62 C46 45 42 20 30 5Z" fill="#2d6cdf"/>
+        <!-- Nose tip -->
+        <path d="M30 5 C26 12 24 18 22 26 L38 26 C36 18 34 12 30 5Z" fill="#1d4fbf"/>
+        <!-- Window -->
+        <circle cx="30" cy="38" r="7" fill="#e9f0ff" stroke="#1d4fbf" stroke-width="1.5"/>
+        <circle cx="30" cy="38" r="4" fill="#b8d0ff"/>
+        <!-- Left fin -->
+        <path d="M14 62 L4 78 L14 72Z" fill="#1d4fbf"/>
+        <!-- Right fin -->
+        <path d="M46 62 L56 78 L46 72Z" fill="#1d4fbf"/>
+        <!-- Exhaust -->
+        <ellipse cx="30" cy="64" rx="8" ry="4" fill="#f0f4ff"/>
+        <!-- Flame outer -->
+        <path d="M22 64 C20 74 24 82 30 88 C36 82 40 74 38 64Z" fill="#f97316" opacity="0.9"/>
+        <!-- Flame inner -->
+        <path d="M25 64 C24 72 27 78 30 83 C33 78 36 72 35 64Z" fill="#fde68a"/>
+      </svg>
+    </div>
+
+    <!-- Clouds -->
+    <div class="clouds-row">
+      <div class="cloud cloud--1">
+        <svg viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="35" rx="55" ry="18" fill="white" opacity="0.85"/>
+          <ellipse cx="40" cy="28" rx="28" ry="20" fill="white" opacity="0.85"/>
+          <ellipse cx="75" cy="25" rx="22" ry="18" fill="white" opacity="0.85"/>
+        </svg>
+      </div>
+      <div class="cloud cloud--2">
+        <svg viewBox="0 0 100 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="32" rx="46" ry="15" fill="white" opacity="0.75"/>
+          <ellipse cx="34" cy="24" rx="24" ry="17" fill="white" opacity="0.75"/>
+          <ellipse cx="66" cy="22" rx="20" ry="16" fill="white" opacity="0.75"/>
+        </svg>
+      </div>
+      <div class="cloud cloud--3">
+        <svg viewBox="0 0 140 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="70" cy="38" rx="65" ry="20" fill="white" opacity="0.9"/>
+          <ellipse cx="48" cy="30" rx="32" ry="22" fill="white" opacity="0.9"/>
+          <ellipse cx="90" cy="27" rx="26" ry="20" fill="white" opacity="0.9"/>
+        </svg>
+      </div>
+      <div class="cloud cloud--4">
+        <svg viewBox="0 0 90 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="45" cy="28" rx="42" ry="14" fill="white" opacity="0.7"/>
+          <ellipse cx="30" cy="22" rx="22" ry="16" fill="white" opacity="0.7"/>
+          <ellipse cx="60" cy="20" rx="18" ry="14" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+
   </div>
+
+  <!-- ── CLOUD OVERLAY (launch animation) ── -->
+  <div id="cloud-overlay"></div>
 
   <!-- ── PHASE 1: COUNTDOWN ── -->
   <div id="countdown-screen">
@@ -65,38 +136,13 @@
     </svg>
   </div>
 
-  <!-- ── PHASE 2 & 3: THREE.JS CANVAS ── -->
+  <!-- ── LOGO TOP (shown during particle phase) ── -->
+  <div id="logo-top">
+    <img src="assets/image.png" alt="IEEE SOU Brand" />
+  </div>
+
+  <!-- ── PARTICLE CANVAS ── -->
   <canvas id="particle-canvas"></canvas>
-
-  <!-- ── PHASE 4: UI ASSEMBLY ── -->
-  <div id="ui-assembly">
-
-    <!-- Background -->
-    <div id="ui-bg"></div>
-    <div id="ui-overlay"></div>
-
-    <!-- Navbar -->
-    <nav id="ui-nav">
-      <div class="nav-logo" id="nav-logo">
-        <img src="assets/image.png" alt="Silver Oak University IEEE Student Branch" class="nav-logo-image" />
-      </div>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#" class="active">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Events</a></li>
-        <li><a href="#">Team</a></li>
-        <li><a href="#">Achievement</a></li>
-        <li><a href="#">Blogs</a></li>
-        <li><a href="#">Bylaws</a></li>
-        <li><a href="#">Contact us</a></li>
-      </ul>
-      <button class="nav-cta" id="nav-cta">Join IEEE</button>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="ui-hero" aria-hidden="true"></section>
-
-  </div><!-- /ui-assembly -->
 
   <!-- Main JS (module) -->
   <script type="module" src="src/main.js"></script>
